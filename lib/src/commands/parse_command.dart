@@ -39,6 +39,7 @@ class ParseCommand extends Command<int> {
         'modelName',
         abbr: 'c',
         help: 'Name of the generated Model',
+        negatable: false,
       );
   }
 
