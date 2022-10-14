@@ -26,7 +26,7 @@ dart pub global activate --source=path <path to this package>
 
 ```sh
 # Example
-$ axiom generate --path {path} --outDir {output path}  --modelName {Generate Model Name}
+$ axiom generate --path {path} --outDir {output path}  --modelName {Your dart class name}
 
 # Show CLI version
 $ axiom --version
@@ -56,7 +56,13 @@ $ genhtml coverage/lcov.info -o coverage/
 $ open coverage/index.html
 ```
 
----
+## Credits
+
+[![Deriv](https://avatars.githubusercontent.com/u/61439569?s=200&v=4)](https://github.com/deriv-com 'Deriv')
+
+## Author
+
+Igwaneza Bruce
 
 [coverage_badge]: coverage_badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
