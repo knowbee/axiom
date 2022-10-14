@@ -68,7 +68,7 @@ class ParseCommand extends Command<int> {
     await File('${argResults!.rest[1]}/${argResults!.rest[2]}.dart')
         .writeAsString(results.toString());
 
-    final output = lightCyan.wrap('Your models are generated successfully');
+    final output = lightCyan.wrap('Your model is generated successfully');
 
     _logger.info(output);
     return ExitCode.success.code;
