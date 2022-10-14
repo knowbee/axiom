@@ -125,7 +125,7 @@ void main() {
         final result = await commandRunner.run(['update']);
         expect(result, equals(ExitCode.success.code));
         verify(
-          () => logger.info('CLI is already at the latest version.'),
+          () => logger.info('Axiom is already at the latest version.'),
         ).called(1);
         verifyNever(() => logger.progress('Updating to $latestVersion'));
         verifyNever(() => pubUpdater.update(packageName: packageName));

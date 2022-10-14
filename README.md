@@ -10,7 +10,7 @@ A CLI tool that converts JSON into gorgeous, typesafe code in dart
 
 ## Getting Started 🚀
 
-If the CLI application is available on [pub](https://pub.dev), activate globally via:
+Activate globally via:
 
 ```sh
 dart pub global activate axiom
@@ -25,11 +25,8 @@ dart pub global activate --source=path <path to this package>
 ## Usage
 
 ```sh
-# Sample command
-$ axiom sample
-
-# Sample command optioon
-$ axiom sample --cyan
+# Example
+$ axiom generate --path {path} --outDir {output path}  --modelName {Generate Model Name}
 
 # Show CLI version
 $ axiom --version
