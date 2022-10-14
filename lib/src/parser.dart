@@ -168,7 +168,7 @@ class JsonSchemaParser {
           ''',
         );
       } else {
-        result.write('''$title: json['$schemaTitle'],''');
+        result.write('''$title: json['$schemaTitle'] as $schemaType,''');
       }
     }
 
