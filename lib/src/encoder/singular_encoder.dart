@@ -1,15 +1,11 @@
 import 'dart:convert';
 
-import 'package:axiom/src/encoder/irregular_plural_nouns.dart';
-import 'package:axiom/src/encoder/uncountable_nouns.dart';
 import 'package:axiom/src/encoder/util.dart';
 
 /// SingularEncoder
 class SingularEncoder extends Converter<String, String> {
   /// SingularEncoder Initializer
   SingularEncoder() {
-    irregularPluralNouns.forEach(_addIrregularInflectionRule);
-
     final rules = <List<Object>>[
       [r's$', (Match m) => ''],
       [r'(ss)$', (Match m) => m[1]],
@@ -53,44 +49,20 @@ class SingularEncoder extends Converter<String, String> {
         .add(<dynamic>[RegExp(plural, caseSensitive: false), singular]);
   }
 
-  void _addIrregularInflectionRule(String singular, String plural) {
-    final s0 = singular.substring(0, 1);
-    final srest = singular.substring(1);
-    final p0 = plural.substring(0, 1);
-    final prest = plural.substring(1);
-
-    if (s0.toUpperCase() == p0.toUpperCase()) {
-      _addInflectionRule('($s0)$srest\$', (Match m) => '${m[1]}$srest');
-      _addInflectionRule('($p0)$prest\$', (Match m) => '${m[1]}$srest');
-    } else {
-      _addInflectionRule('${s0.toUpperCase()}(?i)$srest\$',
-          (Match m) => '${s0.toUpperCase()}$srest',);
-      _addInflectionRule('${s0.toLowerCase()}(?i)$srest\$',
-          (Match m) => '${s0.toUpperCase()}$srest',);
-      _addInflectionRule('${p0.toUpperCase()}(?i)$prest\$',
-          (Match m) => '${s0.toUpperCase()}$srest',);
-      _addInflectionRule('${p0.toLowerCase()}(?i)$prest\$',
-          (Match m) => '${s0.toLowerCase()}$srest',);
-    }
-  }
-
   @override
   String convert(String input) {
     if (input.isNotEmpty) {
-      if (uncountableNouns.contains(input.toLowerCase())) {
-        return input;
-      } else {
-        for (final r in _inflectionRules) {
-          final pattern = r.first as RegExp;
-          if (pattern.hasMatch(input)) {
-            final matcher = r.last as MatchToString;
-            return input.replaceAllMapped(
-                pattern, (Match match) => matcher(match)!,);
-          }
+      for (final r in _inflectionRules) {
+        final pattern = r.first as RegExp;
+        if (pattern.hasMatch(input)) {
+          final matcher = r.last as MatchToString;
+          return input.replaceAllMapped(
+            pattern,
+            (Match match) => matcher(match)!,
+          );
         }
       }
     }
-
     return input;
   }
 }

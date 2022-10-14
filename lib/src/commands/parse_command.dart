@@ -53,12 +53,18 @@ class ParseCommand extends Command<int> {
 
   @override
   Future<int> run() async {
-    if (argResults!.rest.isEmpty) return ExitCode.success.code;
+    if (argResults!.rest.isEmpty) {
+      _logger.info(red.wrap('Run the following command: axiom --help'));
+      return ExitCode.success.code;
+    }
     final schemaObj = File(argResults!.rest[0]).readAsStringSync();
     final models = jsonSchemaParser.getModels(
-        schema: jsonDecode(schemaObj) as Map<String, dynamic>,);
+      schema: jsonDecode(schemaObj) as Map<String, dynamic>,
+    );
     final results = jsonSchemaParser.getClasses(
-        models: models, className: argResults!.rest[2],);
+      models: models,
+      className: argResults!.rest[2],
+    );
     await File('${argResults!.rest[1]}/${argResults!.rest[2]}.dart')
         .writeAsString(results.toString());
 

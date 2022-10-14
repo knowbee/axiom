@@ -1,7 +1,6 @@
 name: axiom
 description: A CLI tool that converts JSON into gorgeous, typesafe code in dart
 version: 0.0.1
-publish_to: none
 repository: https://github.com/knowbee/axiom
 
 environment:
@@ -9,6 +8,7 @@ environment:
 
 dependencies:
   args: ^2.3.1
+  dart_style: ^2.2.4
   mason_logger: ^0.2.0
   pub_updater: ^0.2.1
   recase: ^4.1.0

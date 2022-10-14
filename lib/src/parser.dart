@@ -4,14 +4,6 @@ import 'package:recase/recase.dart';
 
 const String _objectType = 'object';
 const String _arrayType = 'array';
-const List<String> _ignoredParameters = <String>[
-  'req_id',
-  'passthrough',
-  'echo_req',
-  'error',
-  'msg_type',
-  'error',
-];
 
 /// [JsonSchemaParser] is a utility class for extracting main and nested classes from JSON schema contents.
 /// for using this utility first you should call `getModels()` method and pass decoded JSON schema to it,
@@ -26,6 +18,7 @@ class JsonSchemaParser {
     'String',
     'double',
     'bool',
+    'num',
   ];
 
   static final Map<String, String> _typeMap = <String, String>{
@@ -33,6 +26,7 @@ class JsonSchemaParser {
     'string': 'String',
     'number': 'double',
     'boolean': 'bool',
+    'num': 'num',
   };
 
   static String? _getClassName({
@@ -125,8 +119,9 @@ class JsonSchemaParser {
     return result;
   }
 
-  static StringBuffer _generateProperties(
-      {required List<_SchemaModel> models,}) {
+  static StringBuffer _generateProperties({
+    required List<_SchemaModel> models,
+  }) {
     final result = StringBuffer();
 
     for (final model in models) {
@@ -269,10 +264,6 @@ class JsonSchemaParser {
           type = entry.value.runtimeType.toString();
         }
 
-        if (_ignoredParameters.contains(name.toLowerCase())) {
-          continue;
-        }
-
         final childModel = _SchemaModel()
           ..className = _getClassName(
             name: name,
@@ -290,10 +281,14 @@ class JsonSchemaParser {
 
         if (type == _objectType) {
           childModel.children.addAll(
-              getModels(schema: entry.value as Map<String, dynamic>?),);
+            getModels(schema: entry.value as Map<String, dynamic>?),
+          );
         } else if (type == _arrayType) {
-          childModel.children.addAll(getModels(
-              schema: entry.value['items'] as Map<String, dynamic>?,),);
+          childModel.children.addAll(
+            getModels(
+              schema: entry.value['items'] as Map<String, dynamic>?,
+            ),
+          );
         }
 
         parentModel.add(childModel);
